@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@TeleOp(name="CELA FONCTIONNNE", group="WR")
-public class OpMOde_2018 extends LinearOpMode {
+@TeleOp(name="DEBUG", group="WR")
+public class OpMode_2018 extends LinearOpMode {
 
     DcMotor MOTOR;
 
