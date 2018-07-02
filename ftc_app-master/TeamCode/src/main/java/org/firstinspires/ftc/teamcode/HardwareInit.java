@@ -13,6 +13,7 @@ public class HardwareInit
 
     public static  ArrayList<DcMotor> motors = new ArrayList<>();
     public static int AVD = 0, AVG = 1, ARD = 2,ARG = 3, OUV = 4, MOISSONEUSE = 4;
+
     private String[] motorsName = new String[] {"AVD","AVG","ARD","ARG","ROULETTE"};
     private int nbreMoteurs = motorsName.length;
 

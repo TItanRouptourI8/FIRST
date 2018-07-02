@@ -17,6 +17,7 @@ import static org.firstinspires.ftc.teamcode.HardwareInit.MOISSONEUSE;
 public class OpMOde_2018 extends LinearOpMode {
     HardwareInit hardwareInit;
     ArrayList<DcMotor> motors;
+    GamepadHandler gamepadHandler;
 
 
     @Override
@@ -24,18 +25,20 @@ public class OpMOde_2018 extends LinearOpMode {
         hardwareInit = new HardwareInit(hardwareMap);
         motors = hardwareInit.getMotors();
         waitForStart();
+        gamepadHandler = new GamepadHandler(hardwareInit,gamepad1);
 
         while (opModeIsActive())
         {
-            motors.get(AVD).setPower(0.2);
-            motors.get(AVG).setPower(0.2);
-            motors.get(ARD).setPower(0.2);
-            motors.get(ARG).setPower(0.2);
-            motors.get(MOISSONEUSE).setPower(0.4);
+//            motors.get(AVD).setPower(0.2);
+//            motors.get(AVG).setPower(0.2);
+//            motors.get(ARD).setPower(0.2);
+//            motors.get(ARG).setPower(0.2);
+//            motors.get(MOISSONEUSE).setPower(0.4);
 
 
             telemetry.addLine("BONSOIR");
             telemetry.update();
         }
+        gamepadHandler.kill();
     }
 }
