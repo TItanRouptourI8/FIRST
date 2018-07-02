@@ -13,11 +13,11 @@ public class GamepadHandler implements Runnable {
     private HardwareInit robot;
     private Gamepad gamepad1;
     private boolean killed = false;
-    protected double L1x, L1y, R1x, R1y;
+    private double L1x, L1y, R1x, R1y;
     private double alpha;
-    ArrayList<DcMotor> motors;
+    private ArrayList<DcMotor> motors;
 
-    public GamepadHandler(HardwareInit robot, Gamepad gamepad1) {
+    GamepadHandler(HardwareInit robot, Gamepad gamepad1) {
         this.robot = robot;
         this.gamepad1 = gamepad1;
         Thread thread = new Thread(this);
@@ -27,7 +27,7 @@ public class GamepadHandler implements Runnable {
 
     }
 
-    public void getValues() {
+    private void getValues() {
         this.R1x = gamepad1.right_stick_x;
         this.R1y = -gamepad1.right_stick_y;
         this.L1y = -gamepad1.left_stick_y;
@@ -42,19 +42,19 @@ public class GamepadHandler implements Runnable {
         while (!killed) {
             getValues();
             if (abs(this.L1x) < 0.2) {
-                if (abs(this.L1y) < 0.2){
+                if (abs(this.L1y) < 0.2){   // Joystick au repos
                     avg = 0;
                     avd = 0;
                     arg = 0;
                     ard = 0;
                 }
                 else {
-                    if (this.L1y > 0) {
+                    if (this.L1y > 0) {     // En avant
                         avg = puissance;
                         arg = puissance;
                         avd = -puissance;
                         ard = -puissance;
-                    } else {
+                    } else {                // En arrière
                         avg = -puissance;
                         arg = -puissance;
                         avd = puissance;
@@ -64,13 +64,13 @@ public class GamepadHandler implements Runnable {
             }
             else {
                 if (abs(this.L1y) < 0.2) {
-                    if (this.L1x > 0){
+                    if (this.L1x > 0){      // A droite
                         avd = puissance;
                         avg = puissance;
                         ard = -puissance;
                         arg = -puissance;
                     }
-                    else{
+                    else{                   // A gauche
                         avd = -puissance;
                         avg = -puissance;
                         ard = puissance;
@@ -79,12 +79,12 @@ public class GamepadHandler implements Runnable {
                 }
                 else {
                     if (this.L1x > 0) {
-                        if (this.L1y > 0) {
+                        if (this.L1y > 0) {         // Diag avant droit
                             avg = 0.8 * puissance;
                             avd = -0.2 * puissance;
-                            arg = -0.2 * puissance;
+                            arg = 0.2 * puissance;
                             ard = 0.8 * puissance;
-                        } else {
+                        } else {                    // Diag arrière droit
                             avg = -0.2 * puissance;
                             avd = 0.8 * puissance;
                             arg = -0.8 * puissance;
@@ -92,13 +92,13 @@ public class GamepadHandler implements Runnable {
                         }
                     }
                     else {
-                        if (this.L1y>0){
+                        if (this.L1y>0){            // Diag avant gauche
                             avg = 0.2 * puissance;
                             avd = -0.8 * puissance;
-                            arg = -0.8 * puissance;
-                            ard = 0.1 * puissance;
+                            arg = 0.8 * puissance;
+                            ard = -0.2 * puissance;
                         }
-                        else{
+                        else{                       // Diag arrière gauche
                             avg = -0.8 * puissance;
                             avd = 0.2 * puissance;
                             arg = -0.2 * puissance;
