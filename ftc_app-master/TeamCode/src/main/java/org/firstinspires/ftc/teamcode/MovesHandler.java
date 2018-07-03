@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import static java.lang.Math.tan;
 
 public class MovesHandler implements Runnable {
@@ -67,19 +69,19 @@ public class MovesHandler implements Runnable {
                 telem.addData("Alpha", alpha);
                 if ((alpha < -3 * PI / 4) || (alpha > 3 * PI / 4)) {
                     this.L1x = -1;
-                    this.L1y = this.L1x * tan(alpha);
+                    this.L1y = sin(alpha);
                 }
                 if ((alpha <= 3 * PI / 4) && (alpha > PI / 4)) {
                     this.L1y = 1;
-                    this.L1x = 1 / tan(alpha);
+                    this.L1x = cos(alpha);
                 }
                 if ((alpha <= PI / 4) && (alpha > -PI / 4)) {
                     this.L1x = 1;
-                    this.L1y = this.L1x * tan(alpha);
+                    this.L1y = sin(alpha);
                 }
                 if ((alpha <= -PI / 4) && (alpha >= -3 * PI / 4)) {
                     this.L1y = 1;
-                    this.L1x = 1 / tan(alpha);
+                    this.L1x = cos(alpha);
                 }
                 if (this.R1x < 0) {
                     this.R1x = -1;
