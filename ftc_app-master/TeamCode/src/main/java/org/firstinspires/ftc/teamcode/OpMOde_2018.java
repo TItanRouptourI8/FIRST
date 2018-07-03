@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,6 +15,7 @@ import static org.firstinspires.ftc.teamcode.HardwareInit.MOISSONEUSE;
 
 
 @TeleOp(name="DEBUG", group="WR")
+@Disabled
 public class OpMOde_2018 extends LinearOpMode {
     HardwareInit hardwareInit;
     ArrayList<DcMotor> motors;
@@ -35,7 +37,10 @@ public class OpMOde_2018 extends LinearOpMode {
 //            motors.get(ARG).setPower(0.2);
 //            motors.get(MOISSONEUSE).setPower(0.4);
 
+            float pression = gamepad1.left_trigger;
 
+            telemetry.addData("Pression", pression);
+            telemetry.addData("Bouton",gamepad1.getRobocolMsgType());
             telemetry.addLine("BONSOIR");
             telemetry.update();
         }

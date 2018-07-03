@@ -19,7 +19,7 @@ public class OpModeChinebyF extends LinearOpMode {
         hardwareInit = new HardwareInit(hardwareMap);
         motors = hardwareInit.getMotors();
         waitForStart();
-        movesHandler = new MovesHandler(hardwareInit,gamepad1);
+        movesHandler = new MovesHandler(hardwareInit,gamepad1, telemetry);
 
         while (opModeIsActive())
         {
@@ -30,8 +30,9 @@ public class OpModeChinebyF extends LinearOpMode {
 //            motors.get(MOISSONEUSE).setPower(0.4);
 
 
-            telemetry.addLine("BONSOIR");
-            telemetry.update();
+           /* telemetry.addLine("BONSOIR");
+
+            telemetry.update();*/
         }
         movesHandler.kill();
     }
