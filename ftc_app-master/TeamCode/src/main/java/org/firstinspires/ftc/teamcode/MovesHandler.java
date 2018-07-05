@@ -15,6 +15,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
 import static java.lang.Math.tan;
 import static java.lang.Thread.sleep;
 
@@ -22,13 +23,13 @@ public class MovesHandler implements Runnable {
 
     private HardwareInit robot;
     private Gamepad gamepad1;
-    Thread thread;
+    private Thread thread;
     private float trigger =0;
     private float power = 0;
     private boolean killed = false;
     private double L1x, L1y, R1x, R1y;
     private double alpha;
-    private int minJoy = -3, maxJoy = 3;
+    private double minJoy = -sqrt(2)-1, maxJoy = sqrt(2)+1;
     private Telemetry telem;
     private ArrayList<DcMotor> motors;
 
@@ -49,7 +50,7 @@ public class MovesHandler implements Runnable {
         this.L1x = gamepad1.left_stick_x;
         this.R1y = gamepad1.right_stick_y;
         this.trigger = gamepad1.left_trigger;
-        power = Math.max(0.7f,trigger);
+        this.power = Math.max(0.7f,trigger);
     }
 
     public void kill(){
@@ -73,28 +74,8 @@ public class MovesHandler implements Runnable {
             {
                 alpha = atan2(this.L1y, this.L1x);
 
-                if ((alpha < -3 * PI / 4) || (alpha > 3 * PI / 4)) {
-                    this.L1x = -1;
-                    this.L1y = sin(alpha);
-                }
-                if ((alpha <= 3 * PI / 4) && (alpha > PI / 4)) {
-                    this.L1y = 1;
-                    this.L1x = cos(alpha);
-                }
-                if ((alpha <= PI / 4) && (alpha > -PI / 4)) {
-                    this.L1x = 1;
-                    this.L1y = sin(alpha);
-                }
-                if ((alpha <= -PI / 4) && (alpha >= -3 * PI / 4)) {
-                    this.L1y = -1;
-                    this.L1x = cos(alpha);
-                }
-                if (this.R1x < 0) {
-                    this.R1x = -1;
-                }
-                if (this.R1x > 0) {
-                    this.R1x = 1;
-                }
+               this.L1x = cos(alpha);
+               this.L1y = sin(alpha);
             }
             else
             {
@@ -123,11 +104,7 @@ public class MovesHandler implements Runnable {
             telem.update();
 //endregion
 
-            //region Clip And Scale
-            avg = Range.clip(avg,-2,2);
-            avd = Range.clip(avd,-2,2);
-            ard = Range.clip(ard,-2,2);
-            arg = Range.clip(arg,-2,2);
+
 
 
 
@@ -138,11 +115,11 @@ public class MovesHandler implements Runnable {
             //endregion
 
             //region Coef And Motors
-            avg *= power;
-            avd *= power;
-            arg *= power;
-            ard *= power;
-            avg *= power;
+            avg *= this.power;
+            avd *= this.power;
+            arg *= this.power;
+            ard *= this.power;
+            avg *= this.power;
 
 
             this.motors.get(0).setPower(avd);
