@@ -77,6 +77,7 @@ public class ButtonsHandler implements Runnable {
 
 
         while (!killed){
+
             getValues();
             if (this.bumpG) {
                 if (this.moissOn) {
