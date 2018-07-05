@@ -27,7 +27,7 @@ public class ButtonsHandler implements Runnable {
         this.gamepad1 = gamepad1;
         thread = new Thread(this);
         this.minAsc = 0;
-        this.maxSuspension = 700;
+        this.maxSuspension = 1200;
         this.maxBenne = 350;
         this.moissOn = false;
         getValues();
@@ -62,13 +62,12 @@ public class ButtonsHandler implements Runnable {
     }
 
     private void deplAsc(int position){
-        this.ascG.setTargetPosition(this.ascG.getCurrentPosition());
-        this.ascG.setPower(0.3);
+        this.ascD.setPower(0.5);
+        this.ascG.setPower(0.5);
         this.ascD.setTargetPosition(position);
-        this.ascD.setPower(0.3);
-        while (this.ascD.isBusy()) {
-            this.ascG.setTargetPosition(this.ascD.getCurrentPosition());
-        }
+        this.ascG.setTargetPosition(position);
+
+
     }
 
 

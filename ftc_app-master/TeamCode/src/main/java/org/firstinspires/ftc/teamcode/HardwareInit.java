@@ -36,10 +36,13 @@ public class HardwareInit
         for (String name : motorsName)
         {
             DcMotor motor = map.dcMotor.get(name);
-            motor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+            motor.setDirection(DcMotor.Direction.FORWARD);
             motors.add(motor);
         }
         // ATTENTION : l'un des moteurs ASC G ou D doit être mis en reverse
+        motors.get(ASCG).setDirection(DcMotor.Direction.REVERSE);
+        motors.get(MOISSONEUSE).setDirection(DcMotor.Direction.REVERSE);
         // *** Initialise les encodeurs des deux moteurs
         motors.get(ASCG).setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motors.get(ASCD).setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
