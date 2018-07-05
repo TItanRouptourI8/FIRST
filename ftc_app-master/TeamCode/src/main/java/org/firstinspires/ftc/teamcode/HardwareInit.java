@@ -13,9 +13,9 @@ public class HardwareInit
 
 
     private static  ArrayList<DcMotor> motors = new ArrayList<>();
-    static int AVD = 0, AVG = 1, ARD = 2,ARG = 3, OUV = 4, MOISSONEUSE = 4;
+    static int AVD = 0, AVG = 1, ARD = 2,ARG = 3, OUV = 4, MOISSONEUSE = 4, ASCD = 5, ASCG = 6;
 
-    private String[] motorsName = new String[] {"AVD","AVG","ARD","ARG","ROULETTE"};
+    private String[] motorsName = new String[] {"AVD","AVG","ARD","ARG","ROULETTE","ASCD","ASCG"};
     private int nbreMoteurs = motorsName.length;
 
 
@@ -37,6 +37,10 @@ public class HardwareInit
         {
             DcMotor motor = map.dcMotor.get(name);
             motor.setDirection(DcMotorSimple.Direction.FORWARD);
+            if(name.equals("ASCD"))
+            {
+                motor.setDirection(DcMotorSimple.Direction.REVERSE);
+            }
             motors.add(motor);
         }
 
@@ -47,4 +51,28 @@ public class HardwareInit
         return motors;
     }
 
+    public DcMotor Avg()
+{
+    return motors.get(AVG);
+}
+    public DcMotor Avd()
+    {
+        return motors.get(AVD);
+    }
+    public DcMotor Arg()
+    {
+        return motors.get(ARG);
+    }
+    public DcMotor Ard()
+    {
+        return motors.get(ARD);
+    }
+    public DcMotor Ascg()
+    {
+        return motors.get(ASCG);
+    }
+    public DcMotor Ascd()
+    {
+        return motors.get(ASCD);
+    }
 }

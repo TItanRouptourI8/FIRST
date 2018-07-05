@@ -25,7 +25,7 @@ public class MovesHandler implements Runnable {
     Thread thread;
     private float trigger =0;
     private float power = 0;
-    private boolean killed = false;
+
     private double L1x, L1y, R1x, R1y;
     private double alpha;
     private int minJoy = -3, maxJoy = 3;
@@ -36,10 +36,9 @@ public class MovesHandler implements Runnable {
         this.robot = robot;
         this.telem = telem;
         this.gamepad1 = gamepad1;
-        thread = new Thread(this);
         getValues();
         this.motors = this.robot.getMotors();
-        thread.start();
+
 
     }
 
@@ -52,20 +51,13 @@ public class MovesHandler implements Runnable {
         power = Math.max(0.7f,trigger);
     }
 
-    public void kill(){
-        this.motors.get(0).setPower(0);
-        this.motors.get(1).setPower(0);
-        this.motors.get(2).setPower(0);
-        this.motors.get(3).setPower(0);
-        this.killed = true;
-    }
 
 
     @Override
     public void run() {
 
         double avg,avd,arg,ard,alpha;
-        while (!killed){
+
             getValues();
 
             //region Works with angle
@@ -155,7 +147,7 @@ public class MovesHandler implements Runnable {
 
 
         }
-    }
+
 
 private void Sleep(long time)
 {
