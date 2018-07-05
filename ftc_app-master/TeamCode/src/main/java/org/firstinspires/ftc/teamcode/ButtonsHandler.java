@@ -79,12 +79,29 @@ public class ButtonsHandler implements Runnable {
         while (!killed){
             getValues();
             if (this.bumpG) {
-                if (this.moissOn) { this.moissoneuse.setPower(0);}
-                else { this.moissoneuse.setPower(1); }
+                if (this.moissOn) {
+                    this.moissoneuse.setPower(0);
+                    this.moissOn = !this.moissOn;
+                }
+
+                else {
+                    this.moissoneuse.setPower(1);
+                    this.moissOn = !this.moissOn;
+                }
             }
-            if (this.bumpD) {
-                if (this.moissOn) { this.moissoneuse.setPower(0);}
-                else { this.moissoneuse.setPower(-1); }
+
+            else if (this.bumpD) {
+                if (this.moissOn) {
+                        this.moissoneuse.setPower(0);
+                        this.moissOn = !this.moissOn;
+
+                }
+
+                else {
+                    this.moissoneuse.setPower(-1);
+                    this.moissOn = !this.moissOn;
+
+                }
             }
             if (rouge) { this.arretAsc(); }
             else {
