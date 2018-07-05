@@ -12,14 +12,16 @@ public class OpModeChinebyF extends LinearOpMode {
     private HardwareInit hardwareInit;
     private ArrayList<DcMotor> motors;
     private MovesHandler movesHandler;
+    private ButtonsHandler buttonsHandler;
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         hardwareInit = new HardwareInit(hardwareMap);
         motors = hardwareInit.getMotors();
         waitForStart();
         movesHandler = new MovesHandler(hardwareInit,gamepad1, telemetry);
+        buttonsHandler = new ButtonsHandler(hardwareInit,gamepad1,telemetry);
 
         while (opModeIsActive())
         {
@@ -30,10 +32,11 @@ public class OpModeChinebyF extends LinearOpMode {
 //            motors.get(MOISSONEUSE).setPower(0.4);
 
 
-           /* telemetry.addLine("BONSOIR");
 
-            telemetry.update();*/
+
+            telemetry.update();
         }
         movesHandler.kill();
+        buttonsHandler.kill();
     }
 }

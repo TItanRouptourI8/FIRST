@@ -46,11 +46,18 @@ public class HardwareInit
 
         // *** Indique au moteur gauche qu'il doit utiliser les encodeurs
 
-        motors.get(ASCG).setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+      //  motors.get(ASCG).setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // *** Tentative simpliste d'asservissement du moteur droit :
 
         motors.get(ASCD).setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motors.get(ASCG).setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motors.get(ASCD).setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motors.get(ASCG).setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motors.get(ASCD).setTargetPosition(0);
+        motors.get(ASCG).setTargetPosition(0);
 
 
 
