@@ -13,9 +13,9 @@ public class HardwareInit
 
 
     private static  ArrayList<DcMotor> motors = new ArrayList<>();
-    static int AVD = 0, AVG = 1, ARD = 2,ARG = 3, OUV = 4, MOISSONEUSE = 4;
+    static int AVD = 0, AVG = 1, ARD = 2,ARG = 3, OUV = 4, MOISSONEUSE = 4,ASCG = 5, ASCD = 6;
 
-    private String[] motorsName = new String[] {"AVD","AVG","ARD","ARG","ROULETTE"};
+    private String[] motorsName = new String[] {"AVD","AVG","ARD","ARG","ROULETTE","ASCG","ASCD"};
     private int nbreMoteurs = motorsName.length;
 
 
@@ -39,6 +39,19 @@ public class HardwareInit
             motor.setDirection(DcMotorSimple.Direction.FORWARD);
             motors.add(motor);
         }
+        // ATTENTION : l'un des moteurs ASC G ou D doit être mis en reverse
+        // *** Initialise les encodeurs des deux moteurs
+        motors.get(ASCG).setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motors.get(ASCD).setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // *** Indique au moteur gauche qu'il doit utiliser les encodeurs
+
+        motors.get(ASCG).setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // *** Tentative simpliste d'asservissement du moteur droit :
+
+        motors.get(ASCD).setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
 
     }
