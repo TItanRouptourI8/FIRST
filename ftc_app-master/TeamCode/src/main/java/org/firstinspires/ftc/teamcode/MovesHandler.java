@@ -50,7 +50,7 @@ public class MovesHandler implements Runnable {
         this.L1x = gamepad1.left_stick_x;
         this.R1y = gamepad1.right_stick_y;
         this.trigger = gamepad1.left_trigger;
-        this.power = Math.max(0.7f,trigger);
+        this.power = Math.max(0.4f,trigger);
     }
 
     public void kill(){
@@ -108,10 +108,18 @@ public class MovesHandler implements Runnable {
 
 
 
-            avg = Range.scale(avg,minJoy, maxJoy, -1,1);
-            avd = Range.scale(avd,minJoy, maxJoy, -1,1);
-            arg = Range.scale(arg,minJoy, maxJoy, -1,1);
-            ard = Range.scale(ard,minJoy, maxJoy, -1,1);
+            if (this.R1x == 0){
+                avg = Range.scale(avg, minJoy+1, maxJoy-1, -1, 1);
+                avd = Range.scale(avd, minJoy+1, maxJoy-1, -1, 1);
+                arg = Range.scale(arg, minJoy+1, maxJoy-1, -1, 1);
+                ard = Range.scale(ard, minJoy+1, maxJoy-1, -1, 1);
+            }
+            else {
+                avg = Range.scale(avg, minJoy, maxJoy, -1, 1);
+                avd = Range.scale(avd, minJoy, maxJoy, -1, 1);
+                arg = Range.scale(arg, minJoy, maxJoy, -1, 1);
+                ard = Range.scale(ard, minJoy, maxJoy, -1, 1);
+            }
             //endregion
 
             //region Coef And Motors
