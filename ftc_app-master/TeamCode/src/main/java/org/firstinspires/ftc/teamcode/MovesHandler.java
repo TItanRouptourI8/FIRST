@@ -65,7 +65,7 @@ public class MovesHandler implements Runnable {
     @Override
     public void run() {
 
-        double avg,avd,arg,ard,alpha;
+        double avg,avd,arg,ard,alpha = 0;
         while (!killed){
             getValues();
 
@@ -96,12 +96,8 @@ public class MovesHandler implements Runnable {
             //region Telemetry
 
 
-            telem.addData("AVG", avg);
-            telem.addData("AVD", avd);
-            telem.addData("ARD", ard);
-            telem.addData("ARG", arg);
-            telem.addData("pression", trigger);
-            telem.update();
+
+
 //endregion
 
 
@@ -134,6 +130,15 @@ public class MovesHandler implements Runnable {
             this.motors.get(1).setPower(avg);
             this.motors.get(2).setPower(ard);
             this.motors.get(3).setPower(arg);
+
+            telem.addData("AVG", avg);
+            telem.addData("AVD", avd);
+            telem.addData("ARD", ard);
+            telem.addData("ARG", arg);
+            telem.addData("pression", trigger);
+            telem.addData("alpha", alpha);
+            telem.addData("pow", power);
+            telem.update();
             Sleep(10);
             //endregion
 
