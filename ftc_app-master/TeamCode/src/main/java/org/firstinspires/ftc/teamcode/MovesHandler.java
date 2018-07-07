@@ -50,7 +50,7 @@ public class MovesHandler implements Runnable {
         this.L1x = gamepad1.left_stick_x;
         this.R1y = gamepad1.right_stick_y;
         this.trigger = gamepad1.left_trigger;
-        this.power = Math.max(0.4f,trigger);
+        this.power = Math.max(0.5f,trigger);
     }
 
     public void kill(){
