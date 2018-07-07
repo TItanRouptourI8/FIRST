@@ -19,6 +19,8 @@ public class ButtonsHandler implements Runnable {
     private double alpha;
     private Telemetry telem;
    // private ArrayList<DcMotor> motors;
+    private int encodeur;
+    private int Tap = 0;
     private DcMotor ascG,ascD,moissoneuse;
     private int minAsc, maxSuspension,maxBenne;
 
@@ -40,6 +42,7 @@ public class ButtonsHandler implements Runnable {
     }
 
     private void getValues() {
+        encodeur = robot.getMotors().get(5).getCurrentPosition();
         this.up = gamepad1.dpad_up;
         this.down = gamepad1.dpad_down;
         this.orange = gamepad1.y;
@@ -79,13 +82,14 @@ public class ButtonsHandler implements Runnable {
         int i = 0;
         while (!killed){
 
+            //region Moissoneuse
             getValues();
-            if (!bumpG && bumpD)
+            if (!bumpG && !bumpD)
             {
                 bumperCount = 0;
             }
 
-            // GESTION MOISSONEUSE
+
             if (this.bumpG && bumperCount < 1) {
 
                 if (this.moissOn)
@@ -93,7 +97,7 @@ public class ButtonsHandler implements Runnable {
 
                     }
                 else
-                    { this.moissoneuse.setPower(1);
+                    { this.moissoneuse.setPower(0.8);
 
                     }
                 this.moissOn = !this.moissOn;
@@ -102,14 +106,22 @@ public class ButtonsHandler implements Runnable {
 
             else if (this.bumpD && bumperCount < 1) {
                 if (this.moissOn) { this.moissoneuse.setPower(0); }
-                else { this.moissoneuse.setPower(-1); }
+                else { this.moissoneuse.setPower(-0.8); }
                 this.moissOn = !this.moissOn;
                 bumperCount +=1;
             }
+            //endregion
+
+
 
             // GESTION ASCENSEUR
             if (rouge) { this.arretAsc(); }
-            else if (orange) {this.deplAsc(this.maxBenne); }
+            else if (orange) {
+
+                this.deplAsc(Math.min(750, encodeur + 150));
+
+
+            }
             else if (vert || down) {this.deplAsc(this.minAsc); }
             else if (up) { this.deplAsc(this.maxSuspension); }
 

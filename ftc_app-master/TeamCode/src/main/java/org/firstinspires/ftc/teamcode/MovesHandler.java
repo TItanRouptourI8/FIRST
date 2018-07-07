@@ -28,18 +28,21 @@ public class MovesHandler implements Runnable {
     private float power = 0;
     private boolean killed = false;
     private double L1x, L1y, R1x, R1y;
+
     private double alpha;
+    private int encodeur;
     private double minJoy = -sqrt(2)-1, maxJoy = sqrt(2)+1;
     private Telemetry telem;
     private ArrayList<DcMotor> motors;
+
 
     MovesHandler(HardwareInit robot, Gamepad gamepad1, Telemetry telem) {
         this.robot = robot;
         this.telem = telem;
         this.gamepad1 = gamepad1;
         thread = new Thread(this);
-        getValues();
         this.motors = this.robot.getMotors();
+        getValues();
         thread.start();
 
     }
@@ -48,9 +51,11 @@ public class MovesHandler implements Runnable {
         this.R1x = gamepad1.right_stick_x;
         this.L1y = -gamepad1.left_stick_y;
         this.L1x = gamepad1.left_stick_x;
-        this.R1y = gamepad1.right_stick_y;
+        //this.R1y = gamepad1.right_stick_y;
         this.trigger = gamepad1.left_trigger;
+        encodeur = motors.get(5).getCurrentPosition();
         this.power = Math.max(0.5f,trigger);
+
     }
 
     public void kill(){
@@ -67,6 +72,7 @@ public class MovesHandler implements Runnable {
 
         double avg,avd,arg,ard,alpha = 0;
         while (!killed){
+
             getValues();
 
             //region Works with angle
@@ -76,6 +82,7 @@ public class MovesHandler implements Runnable {
 
                this.L1x = cos(alpha);
                this.L1y = sin(alpha);
+
             }
             else
             {
@@ -91,6 +98,7 @@ public class MovesHandler implements Runnable {
                 avd = this.L1y - this.L1x - this.R1x;
                 ard = this.L1y + this.L1x - this.R1x;
                 arg = -this.L1y + this.L1x - this.R1x;
+
             //endregion
 
             //region Telemetry
@@ -109,12 +117,14 @@ public class MovesHandler implements Runnable {
                 avd = Range.scale(avd, minJoy+1, maxJoy-1, -1, 1);
                 arg = Range.scale(arg, minJoy+1, maxJoy-1, -1, 1);
                 ard = Range.scale(ard, minJoy+1, maxJoy-1, -1, 1);
+
             }
             else {
                 avg = Range.scale(avg, minJoy, maxJoy, -1, 1);
                 avd = Range.scale(avd, minJoy, maxJoy, -1, 1);
                 arg = Range.scale(arg, minJoy, maxJoy, -1, 1);
                 ard = Range.scale(ard, minJoy, maxJoy, -1, 1);
+
             }
             //endregion
 
@@ -123,7 +133,6 @@ public class MovesHandler implements Runnable {
             avd *= this.power;
             arg *= this.power;
             ard *= this.power;
-            avg *= this.power;
 
 
             this.motors.get(0).setPower(avd);
@@ -131,6 +140,7 @@ public class MovesHandler implements Runnable {
             this.motors.get(2).setPower(ard);
             this.motors.get(3).setPower(arg);
 
+            telem.addData("encodeur", encodeur);
             telem.addData("AVG", avg);
             telem.addData("AVD", avd);
             telem.addData("ARD", ard);
@@ -139,7 +149,7 @@ public class MovesHandler implements Runnable {
             telem.addData("alpha", alpha);
             telem.addData("pow", power);
             telem.update();
-            Sleep(10);
+            Sleep(20);
             //endregion
 
 
