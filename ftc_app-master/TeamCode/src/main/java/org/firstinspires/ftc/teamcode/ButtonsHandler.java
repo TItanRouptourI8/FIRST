@@ -80,7 +80,7 @@ public class ButtonsHandler implements Runnable {
         while (!killed){
 
             getValues();
-            if (!bumpG && bumpD)
+            if (!bumpG && !bumpD)
             {
                 bumperCount = 0;
             }
