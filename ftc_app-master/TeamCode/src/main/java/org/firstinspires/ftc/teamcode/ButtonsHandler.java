@@ -14,7 +14,7 @@ public class ButtonsHandler implements Runnable {
     private Gamepad gamepad1;
     private Thread thread;
     private boolean killed = false;
-    int bumperCount = 0, bumper2Count = 0;
+    int bumperCount = 0; /*bumper2Count = 0*/;
     private boolean up,down,orange,vert,rouge,bumpG,bumpD,moissOn;
     private double alpha;
     private Telemetry telem;
@@ -80,14 +80,11 @@ public class ButtonsHandler implements Runnable {
         while (!killed){
 
             getValues();
-            if (!bumpG)
+            if (!bumpG && bumpD)
             {
                 bumperCount = 0;
             }
-            if (!bumpD)
-            {
-                bumper2Count =0;
-            }
+
             // GESTION MOISSONEUSE
             if (this.bumpG && bumperCount < 1) {
 
@@ -103,11 +100,11 @@ public class ButtonsHandler implements Runnable {
                 bumperCount +=1;
             }
 
-            else if (this.bumpD && bumper2Count < 1) {
+            else if (this.bumpD && bumperCount < 1) {
                 if (this.moissOn) { this.moissoneuse.setPower(0); }
                 else { this.moissoneuse.setPower(-1); }
                 this.moissOn = !this.moissOn;
-                bumper2Count +=1;
+                bumperCount +=1;
             }
 
             // GESTION ASCENSEUR
@@ -124,9 +121,9 @@ public class ButtonsHandler implements Runnable {
             telem.addData("ARD", ard);
             telem.addData("ARG", arg);
             telem.addData("pression", trigger);*/
-            i += 1;
-            telem.addData("ButtonsHandler : boucle n° ",i);
-            telem.update();
+            /*i += 1;*/
+            /*telem.addData("ButtonsHandler : boucle n° ",i);
+            telem.update();*/
 
             //endregion
 
