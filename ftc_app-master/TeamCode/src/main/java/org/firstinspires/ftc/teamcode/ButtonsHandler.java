@@ -27,7 +27,7 @@ public class ButtonsHandler implements Runnable {
         this.gamepad1 = gamepad1;
         thread = new Thread(this);
         this.minAsc = 0;
-        this.maxSuspension = 1200;
+        this.maxSuspension = 1300;
         this.maxBenne = 350;
         this.moissOn = false;
         getValues();
@@ -75,51 +75,29 @@ public class ButtonsHandler implements Runnable {
     @Override
     public void run() {
 
-
+        int i = 0;
         while (!killed){
 
             getValues();
-            if (this.bumpG) {
-                if (this.moissOn) {
-                    this.moissoneuse.setPower(0);
-                    this.moissOn = !this.moissOn;
-                }
 
-                else {
-                    this.moissoneuse.setPower(1);
-                    this.moissOn = !this.moissOn;
-                }
+            // GESTION MOISSONEUSE
+            if (this.bumpG) {
+                if (this.moissOn) { this.moissoneuse.setPower(0); }
+                else { this.moissoneuse.setPower(1); }
+                this.moissOn = !this.moissOn;
             }
 
             else if (this.bumpD) {
-                if (this.moissOn) {
-                        this.moissoneuse.setPower(0);
-                        this.moissOn = !this.moissOn;
-
-                }
-
-                else {
-                    this.moissoneuse.setPower(-1);
-                    this.moissOn = !this.moissOn;
-
-                }
+                if (this.moissOn) { this.moissoneuse.setPower(0); }
+                else { this.moissoneuse.setPower(-1); }
+                this.moissOn = !this.moissOn;
             }
+
+            // GESTION ASCENSEUR
             if (rouge) { this.arretAsc(); }
-            else {
-                if (orange) {
-                    this.deplAsc(this.maxBenne);
-                } else {
-                    if (vert || down) {
-                        this.deplAsc(this.minAsc);
-                    } else {
-                        if (up) {
-                            this.deplAsc(this.maxSuspension);
-                        }
-                    }
-                }
-            }
-
-
+            else if (orange) {this.deplAsc(this.maxBenne); }
+            else if (vert || down) {this.deplAsc(this.minAsc); }
+            else if (up) { this.deplAsc(this.maxSuspension); }
 
             //region Telemetry
 
@@ -128,8 +106,10 @@ public class ButtonsHandler implements Runnable {
             telem.addData("AVD", avd);
             telem.addData("ARD", ard);
             telem.addData("ARG", arg);
-            telem.addData("pression", trigger);
-            telem.update();*/
+            telem.addData("pression", trigger);*/
+            i += 1;
+            telem.addData("ButtonsHandler : boucle n° ",i);
+            telem.update();
 
             //endregion
 
