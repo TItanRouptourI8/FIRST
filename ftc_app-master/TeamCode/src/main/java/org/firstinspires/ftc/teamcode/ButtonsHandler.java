@@ -14,6 +14,7 @@ public class ButtonsHandler implements Runnable {
     private Gamepad gamepad1;
     private Thread thread;
     private boolean killed = false;
+    int bumperCount = 0, bumper2Count = 0;
     private boolean up,down,orange,vert,rouge,bumpG,bumpD,moissOn;
     private double alpha;
     private Telemetry telem;
@@ -27,7 +28,7 @@ public class ButtonsHandler implements Runnable {
         this.gamepad1 = gamepad1;
         thread = new Thread(this);
         this.minAsc = 0;
-        this.maxSuspension = 1300;
+        this.maxSuspension = 1200;
         this.maxBenne = 350;
         this.moissOn = false;
         getValues();
@@ -79,18 +80,34 @@ public class ButtonsHandler implements Runnable {
         while (!killed){
 
             getValues();
-
+            if (!bumpG)
+            {
+                bumperCount = 0;
+            }
+            if (!bumpD)
+            {
+                bumper2Count =0;
+            }
             // GESTION MOISSONEUSE
-            if (this.bumpG) {
-                if (this.moissOn) { this.moissoneuse.setPower(0); }
-                else { this.moissoneuse.setPower(1); }
+            if (this.bumpG && bumperCount < 1) {
+
+                if (this.moissOn)
+                    { this.moissoneuse.setPower(0);
+
+                    }
+                else
+                    { this.moissoneuse.setPower(1);
+
+                    }
                 this.moissOn = !this.moissOn;
+                bumperCount +=1;
             }
 
-            else if (this.bumpD) {
+            else if (this.bumpD && bumper2Count < 1) {
                 if (this.moissOn) { this.moissoneuse.setPower(0); }
                 else { this.moissoneuse.setPower(-1); }
                 this.moissOn = !this.moissOn;
+                bumper2Count +=1;
             }
 
             // GESTION ASCENSEUR
@@ -114,7 +131,7 @@ public class ButtonsHandler implements Runnable {
             //endregion
 
             Sleep(10);
-            //endregion
+
 
 
 
