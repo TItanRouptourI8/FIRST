@@ -16,16 +16,21 @@ public class ButtonsHandler implements Runnable {
     private Gamepad gamepad1;
     private Thread thread;
     private boolean killed = false;
-    int bumperCount = 0;
+    private int bumperCount = 0;
     private boolean up,down,orange,vert,rouge,bumpG,bumpD,moissOn;
     private Telemetry telem;
     private int encodeur;
     private double angleServo;
-    boolean startPort = false;
+    private boolean startPort = false;
     private Servo Portail;
     private DcMotor ascG,ascD,moissoneuse;
     private int minAsc, maxSuspension;
 
+    /**
+     * @param robot reference du robot controllé
+     * @param gamepad1 nom de la manette gérée
+     * @param telem nom de la télémétrie utilisée
+     */
     ButtonsHandler(HardwareInit robot, Gamepad gamepad1, Telemetry telem) {
         this.robot = robot;
         this.telem = telem;
