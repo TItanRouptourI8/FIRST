@@ -27,17 +27,6 @@ public class OpModeChinebyF extends LinearOpMode {
         while (opModeIsActive())
         {
 
-
-//            motors.get(AVD).setPower(0.2);
-//            motors.get(AVG).setPower(0.2);
-//            motors.get(ARD).setPower(0.2);
-//            motors.get(ARG).setPower(0.2);
-//            motors.get(MOISSONEUSE).setPower(0.4);
-
-
-
-
-           // telemetry.update();
         }
         movesHandler.kill();
         buttonsHandler.kill();
