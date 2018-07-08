@@ -6,7 +6,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import java.lang.reflect.Array;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class HardwareInit
 {
@@ -17,8 +19,9 @@ public class HardwareInit
     static int AVD = 0, AVG = 1, ARD = 2,ARG = 3, MOISSONEUSE = 4,ASCG = 5, ASCD = 6;
 
     private String[] motorsName = new String[] {"AVD","AVG","ARD","ARG","ROULETTE","ASCG","ASCD"};
+    private Servo portail;
     private int nbreMoteurs = motorsName.length;
-    private Servo ouv;
+
     public double posInit;
 
 
@@ -74,16 +77,41 @@ public class HardwareInit
 
         // Initialisation du servo d'ouverture de porte
 
-        ouv = map.servo.get("OUV");
-        posInit = ouv.getPosition();
+        portail = map.servo.get("PORTAIL");
+        portail.setPosition(0.2);
+        waitForTick(1000);
+        /*try {
+            wait(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        portail.setPosition(-90);*/
 
 
-
-
+    }
+    public Servo portail()
+    {
+        return portail;
     }
 
     public  ArrayList<DcMotor> getMotors() {
         return motors;
     }
 
-}
+
+    public void waitForTick(long periodMs) {
+
+
+
+        // sleep for the remaining portion of the regular cycle period.
+            try {
+                Thread.sleep(periodMs);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        // Reset the cycle clock for the next pass.
+
+    }
+

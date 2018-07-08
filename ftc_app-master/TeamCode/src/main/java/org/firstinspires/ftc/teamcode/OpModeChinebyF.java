@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.BatteryChecker;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class OpModeChinebyF extends LinearOpMode {
 
         while (opModeIsActive())
         {
+
 //            motors.get(AVD).setPower(0.2);
 //            motors.get(AVG).setPower(0.2);
 //            motors.get(ARD).setPower(0.2);
@@ -34,7 +36,7 @@ public class OpModeChinebyF extends LinearOpMode {
 
 
 
-            telemetry.update();
+           // telemetry.update();
         }
         movesHandler.kill();
         buttonsHandler.kill();

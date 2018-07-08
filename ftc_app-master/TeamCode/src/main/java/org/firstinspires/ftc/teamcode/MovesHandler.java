@@ -140,15 +140,15 @@ public class MovesHandler implements Runnable {
             this.motors.get(2).setPower(ard);
             this.motors.get(3).setPower(arg);
 
-            telem.addData("encodeur", encodeur);
+           /* telem.addData("encodeur", encodeur);
             telem.addData("AVG", avg);
             telem.addData("AVD", avd);
             telem.addData("ARD", ard);
             telem.addData("ARG", arg);
             telem.addData("pression", trigger);
             telem.addData("alpha", alpha);
-            telem.addData("pow", power);
-            telem.update();
+            telem.addData("pow", power);*/
+           // telem.update();
             Sleep(20);
             //endregion
 

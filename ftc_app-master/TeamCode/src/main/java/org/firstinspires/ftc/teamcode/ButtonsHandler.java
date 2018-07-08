@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import static java.lang.Thread.sleep;
 import static org.firstinspires.ftc.teamcode.HardwareInit.ASCD;
@@ -14,13 +16,17 @@ public class ButtonsHandler implements Runnable {
     private Gamepad gamepad1;
     private Thread thread;
     private boolean killed = false;
-    int bumperCount = 0; /*bumper2Count = 0*/;
+    int bumperCount = 0,joyCount = 0; /*bumper2Count = 0*/;
     private boolean up,down,orange,vert,rouge,bumpG,bumpD,moissOn;
     private double alpha;
     private Telemetry telem;
    // private ArrayList<DcMotor> motors;
     private int encodeur;
+    private double angleServo;
     private int Tap = 0;
+    boolean startPort = false;
+    private Servo Portail;
+    private double start;
     private DcMotor ascG,ascD,moissoneuse;
     private int minAsc, maxSuspension,maxBenne;
 
@@ -30,13 +36,16 @@ public class ButtonsHandler implements Runnable {
         this.gamepad1 = gamepad1;
         thread = new Thread(this);
         this.minAsc = 0;
-        this.maxSuspension = 1200;
+        this.maxSuspension = 1450;
         this.maxBenne = 350;
         this.moissOn = false;
-        getValues();
+
+        Portail = robot.portail();
         this.ascG = this.robot.getMotors().get(ASCG);
         this.ascD = this.robot.getMotors().get(ASCD);
         this.moissoneuse = this.robot.getMotors().get(MOISSONEUSE);
+        getValues();
+
         thread.start();
 
     }
@@ -44,9 +53,11 @@ public class ButtonsHandler implements Runnable {
     private void getValues() {
         encodeur = robot.getMotors().get(5).getCurrentPosition();
         this.up = gamepad1.dpad_up;
+        startPort = gamepad1.left_stick_button;
         this.down = gamepad1.dpad_down;
         this.orange = gamepad1.y;
         this.vert = gamepad1.a;
+        angleServo = Portail.getPosition();
         this.rouge = gamepad1.b;
         this.bumpG = gamepad1.left_bumper;
         this.bumpD = gamepad1.right_bumper;
@@ -78,6 +89,8 @@ public class ButtonsHandler implements Runnable {
 
     @Override
     public void run() {
+
+
 
         int i = 0;
         while (!killed){
@@ -118,16 +131,29 @@ public class ButtonsHandler implements Runnable {
             if (rouge) { this.arretAsc(); }
             else if (orange) {
 
+                Portail.setPosition(-.2);
                 this.deplAsc(Math.min(750, encodeur + 150));
 
 
             }
-            else if (vert || down) {this.deplAsc(this.minAsc); }
+            else if (vert || down)
+            {
+                this.deplAsc(this.minAsc);
+                Portail.setPosition(+0.2);
+
+            }
             else if (up) { this.deplAsc(this.maxSuspension); }
+
+
+
+
+
+
 
             //region Telemetry
 
-
+            telem.addData("angle servo", angleServo);
+            telem.update();
             /*telem.addData("AVG", avg);
             telem.addData("AVD", avd);
             telem.addData("ARD", ard);
