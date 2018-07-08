@@ -16,19 +16,15 @@ public class ButtonsHandler implements Runnable {
     private Gamepad gamepad1;
     private Thread thread;
     private boolean killed = false;
-    int bumperCount = 0,joyCount = 0; /*bumper2Count = 0*/;
+    int bumperCount = 0;
     private boolean up,down,orange,vert,rouge,bumpG,bumpD,moissOn;
-    private double alpha;
     private Telemetry telem;
-   // private ArrayList<DcMotor> motors;
     private int encodeur;
     private double angleServo;
-    private int Tap = 0;
     boolean startPort = false;
     private Servo Portail;
-    private double start;
     private DcMotor ascG,ascD,moissoneuse;
-    private int minAsc, maxSuspension,maxBenne;
+    private int minAsc, maxSuspension;
 
     ButtonsHandler(HardwareInit robot, Gamepad gamepad1, Telemetry telem) {
         this.robot = robot;
@@ -37,7 +33,6 @@ public class ButtonsHandler implements Runnable {
         thread = new Thread(this);
         this.minAsc = 0;
         this.maxSuspension = 1450;
-        this.maxBenne = 350;
         this.moissOn = false;
 
         Portail = robot.portail();
@@ -89,9 +84,6 @@ public class ButtonsHandler implements Runnable {
 
     @Override
     public void run() {
-
-
-
         int i = 0;
         while (!killed){
 
@@ -125,30 +117,23 @@ public class ButtonsHandler implements Runnable {
             }
             //endregion
 
-
-
-            // GESTION ASCENSEUR
+            //region Gestion ascenseur
             if (rouge) { this.arretAsc(); }
             else if (orange) {
-
                 Portail.setPosition(-.2);
                 this.deplAsc(Math.min(750, encodeur + 150));
-
-
             }
-            else if (vert || down)
-            {
+            else if (vert) {
                 this.deplAsc(this.minAsc);
                 Portail.setPosition(+0.2);
+            }
 
+            else if (down) {
+                this.deplAsc(Math.min(this.ascD.getCurrentPosition(),1000));
+                Portail.setPosition(+0.2);
             }
             else if (up) { this.deplAsc(this.maxSuspension); }
-
-
-
-
-
-
+            //endregion
 
             //region Telemetry
 
@@ -166,9 +151,6 @@ public class ButtonsHandler implements Runnable {
             //endregion
 
             Sleep(10);
-
-
-
 
         }
     }

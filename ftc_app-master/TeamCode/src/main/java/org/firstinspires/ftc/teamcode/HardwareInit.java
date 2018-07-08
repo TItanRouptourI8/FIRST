@@ -80,12 +80,6 @@ public class HardwareInit
         portail = map.servo.get("PORTAIL");
         portail.setPosition(0.2);
         waitForTick(1000);
-        /*try {
-            wait(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        portail.setPosition(-90);*/
 
 
     }

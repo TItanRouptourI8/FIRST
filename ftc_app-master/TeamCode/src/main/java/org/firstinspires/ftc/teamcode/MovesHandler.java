@@ -51,7 +51,6 @@ public class MovesHandler implements Runnable {
         this.R1x = gamepad1.right_stick_x;
         this.L1y = -gamepad1.left_stick_y;
         this.L1x = gamepad1.left_stick_x;
-        //this.R1y = gamepad1.right_stick_y;
         this.trigger = gamepad1.left_trigger;
         encodeur = motors.get(5).getCurrentPosition();
         this.power = Math.max(0.4f,trigger);
@@ -101,17 +100,7 @@ public class MovesHandler implements Runnable {
 
             //endregion
 
-            //region Telemetry
-
-
-
-
-//endregion
-
-
-
-
-
+            //region Scaling
             if (this.R1x == 0){
                 avg = Range.scale(avg, minJoy+1, maxJoy-1, -1, 1);
                 avd = Range.scale(avd, minJoy+1, maxJoy-1, -1, 1);
@@ -140,19 +129,21 @@ public class MovesHandler implements Runnable {
             this.motors.get(2).setPower(ard);
             this.motors.get(3).setPower(arg);
 
-           /* telem.addData("encodeur", encodeur);
+            //endregion
+
+            //region telemetry
+            telem.addData("encodeur", encodeur);
             telem.addData("AVG", avg);
             telem.addData("AVD", avd);
             telem.addData("ARD", ard);
             telem.addData("ARG", arg);
             telem.addData("pression", trigger);
             telem.addData("alpha", alpha);
-            telem.addData("pow", power);*/
+            telem.addData("pow", power);
            // telem.update();
-            Sleep(20);
             //endregion
 
-
+            Sleep(20);
 
         }
     }
