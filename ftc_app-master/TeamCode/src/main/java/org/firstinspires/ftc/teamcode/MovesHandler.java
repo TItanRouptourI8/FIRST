@@ -54,7 +54,7 @@ public class MovesHandler implements Runnable {
         //this.R1y = gamepad1.right_stick_y;
         this.trigger = gamepad1.left_trigger;
         encodeur = motors.get(5).getCurrentPosition();
-        this.power = Math.max(0.5f,trigger);
+        this.power = Math.max(0.4f,trigger);
 
     }
 
@@ -119,7 +119,7 @@ public class MovesHandler implements Runnable {
                 ard = Range.scale(ard, minJoy+1, maxJoy-1, -1, 1);
 
             }
-            else {
+            else if (!(this.L1x == 0 && this.L1y == 0)){
                 avg = Range.scale(avg, minJoy, maxJoy, -1, 1);
                 avd = Range.scale(avd, minJoy, maxJoy, -1, 1);
                 arg = Range.scale(arg, minJoy, maxJoy, -1, 1);
